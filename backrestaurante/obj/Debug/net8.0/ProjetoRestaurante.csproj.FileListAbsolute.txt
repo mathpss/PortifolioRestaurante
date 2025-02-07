@@ -169,3 +169,4 @@ C:\Users\Marinara Souza Silva\Desktop\ProjetoRestaurante\backrestaurante\obj\Deb
 C:\Users\Marinara Souza Silva\Desktop\ProjetoRestaurante\backrestaurante\obj\Debug\net8.0\ProjetoRestaurante.pdb
 C:\Users\Marinara Souza Silva\Desktop\ProjetoRestaurante\backrestaurante\obj\Debug\net8.0\ProjetoRestaurante.genruntimeconfig.cache
 C:\Users\Marinara Souza Silva\Desktop\ProjetoRestaurante\backrestaurante\obj\Debug\net8.0\ref\ProjetoRestaurante.dll
+C:\Users\Marinara Souza Silva\Desktop\ProjetoRestaurante\backrestaurante\obj\Debug\net8.0\ProjetoRestaurante.sourcelink.json

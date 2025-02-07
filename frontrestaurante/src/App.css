@@ -85,6 +85,29 @@ a.pedido{
   color: var(--main-text-color);
   margin-bottom: 30px;
 }
+.btn-warning{
+  background-color: var(--main-yellow-color);
+  color: var(--main-text-color);
+
+}
+
+.offcanvas {
+  background: var(--main-bg-color);
+  color: var(--main-text-color);
+  
+}
+
+.modal-header{
+  background: var(--main-bg-color);
+  color: var(--main-text-color);
+  
+}
+
+.btn-close{
+  background-color: var(--main-text-color);
+}
+
+
 
 
 

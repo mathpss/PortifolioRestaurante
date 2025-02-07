@@ -4,8 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using backrestaurante.Dtos;
 using backrestaurante.Entity;
-using backrestaurante.Services;
 using Microsoft.AspNetCore.Mvc;
+using backrestaurante.Services.Interfaces;
+using backrestaurante.Models;
 
 namespace backrestaurante.Controllers
 {
@@ -29,7 +30,7 @@ namespace backrestaurante.Controllers
         public async Task<ActionResult<Marmita>> ObterMarmitaPorId(int id)
         {
             var marmita = await _marmitaService.ObterMarmitaPorId(id);
-            if (marmita == null) return NotFound();
+            if (marmita == null) throw new KeyNotFoundException("Pedido não encontrado no Banco de Dados");
             return Ok(marmita);
         }
 
@@ -54,7 +55,7 @@ namespace backrestaurante.Controllers
         public async Task<ActionResult<Cliente>> ObterClientePorId(int id)
         {
             var cliente = await _clienteService.ObterClientePorId(id);
-            if (cliente == null) return NotFound();
+            if (cliente == null) throw new KeyNotFoundException("Cliente não encontrado no Banco de Dados");
             return Ok(cliente);           
         }
 
@@ -63,19 +64,41 @@ namespace backrestaurante.Controllers
 
         public async Task<ActionResult>CriarCliente(ClienteDto cliente)
         {
-            var novoCliente = new Cliente(){
+            var novoCliente = new Cliente()
+            {
                 Nome = cliente.Nome,
-                Telefone = cliente.Telefone
+                Telefone = cliente.Telefone,
+                Perfil = (cliente.Perfil == null) ? Perfil.Cliente : (Perfil) Enum.Parse(typeof(Perfil), cliente.Perfil)
             };
             await _clienteService.CriarCliente(novoCliente);
             return CreatedAtAction(nameof(ObterClientePorId), new { id = novoCliente.Id }, novoCliente);
         }
 
+        [HttpPost("Cliente/Login")]
+        public async Task<ActionResult>ClienteLogin(ClienteDto cliente)
+        {
+            var clienteLogin = new Cliente()
+            {
+                Nome = cliente.Nome,
+                Telefone = cliente.Telefone,
+                Perfil = (cliente.Perfil == null) ? Perfil.Cliente : (Perfil) Enum.Parse(typeof(Perfil), cliente.Perfil)
+                  
+            };
+
+            var clientelogado = await _clienteService.ClienteLogin(clienteLogin);
+            if (clientelogado != null) return Ok(clientelogado);
+
+            return Unauthorized();
+            
+        }
+
+
+
         [HttpGet("ObterEnderecoPorId/{id:int}")]
         public async Task<ActionResult<Endereco>>ObterEnderecoPorId(int id)
         {
             var endereco = await _enderecoService.ObterEnderecoPorId(id);
-            if (endereco == null) return NotFound();
+            if (endereco == null) throw new KeyNotFoundException("Endereço não encontrado no Banco de Dados");
             return Ok(endereco);              
         }
 

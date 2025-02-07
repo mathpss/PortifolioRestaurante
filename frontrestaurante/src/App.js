@@ -1,7 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react';
-import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { Modal, ModalBody, ModalFooter, ModalHeader, Offcanvas, OffcanvasHeader, OffcanvasBody } from 'reactstrap';
 import './App.css';
+import { GiHamburgerMenu } from "react-icons/gi";
 import { api } from './Services/Api';
 
 function App() {
@@ -67,13 +68,18 @@ function App() {
     setmodalEndereco(!modalEndereco);
   }
 
+  const [offCanvas, setOffCanvas] = useState(false);
+  const abrirFecharOffCanvas = () => {
+    setOffCanvas(!offCanvas);
+  }
+
   const clientePost =  async () => {
     delete cliente.id
     if (cliente.nome == null || cliente.telefone == null) {
       alert("Insira o nome e o telefone")
     } else {
       await api.post(`CriarCliente`, cliente).then(response => {
-       sessionStorage.setItem('id', response.data.id)              
+      sessionStorage.setItem('id', response.data.id)              
       });
       abrirFecharModalMarmita()
       abrirFecharModalCliente() 
@@ -112,7 +118,31 @@ function App() {
     <div className="App container-fluid">
             <header className=" container px-sm-2">
               <nav className='navbar '>
-              <h1></h1>
+
+                    <button className="btn btn-warning" onClick={() => abrirFecharOffCanvas()}  >
+                      <GiHamburgerMenu />
+          </button>
+          <Offcanvas   isOpen={offCanvas} >
+    <OffcanvasHeader >
+              <div className= "offcanvas-header">                
+    <button className="btn btn-warning" onClick={() => abrirFecharOffCanvas()}  >
+                      <GiHamburgerMenu />
+          </button>
+    </div>
+
+              
+    </OffcanvasHeader>
+    <OffcanvasBody >
+              <div className="offcanvas-body">
+                
+              <strong>
+        This is the Offcanvas body.
+      </strong>
+        </div>
+    </OffcanvasBody>
+  </Offcanvas>
+
+
                 <h1 className='navbar-text text-light text-center'>Cárdapio Segunda-Feira</h1>
                 <h1></h1>
             </nav>
@@ -162,8 +192,8 @@ function App() {
 
       </footer>
 
-      <Modal isOpen={modalCliente}>
-        <ModalHeader  className='text-black'>Entre com seus dados</ModalHeader>
+      <Modal  isOpen={modalCliente}>
+        <ModalHeader  className='modal-header'>Entre com seus dados</ModalHeader>
 
         <ModalBody>
           <div className='form-group'>
@@ -180,8 +210,8 @@ function App() {
         </ModalBody>
 
         <ModalFooter>
-          <button className='btn btn-primary' onClick={() => clientePost()}>Ok</button>
-          <button className='btn btn-danger' onClick={() => abrirFecharModalCliente()}>Cancelar</button>
+          <button className='btn btn-warning' onClick={() => clientePost()}>Ok</button>
+          <button className='btn btn-secondary' onClick={() => abrirFecharModalCliente()}>Cancelar</button>
         </ModalFooter>
 
       </Modal>
@@ -189,7 +219,7 @@ function App() {
  
           <Modal isOpen={modalMarmita}>
 
-          <ModalHeader  className='text-black'>Entre com seu pedido</ModalHeader>
+          <ModalHeader  className='modal-header'>Entre com seu pedido</ModalHeader>
 
               <ModalBody>
                 <div className='form-group'>
@@ -214,8 +244,8 @@ function App() {
               </ModalBody>
 
               <ModalFooter>
-                <button className='btn btn-primary' onClick={() => marmitaPost()}>Ok</button>
-                <button className='btn btn-danger' onClick={() => abrirFecharModalMarmita()} >Cancelar</button>
+                <button className='btn btn-warning' onClick={() => marmitaPost()}>Ok</button>
+                <button className='btn btn-secondary' onClick={() => abrirFecharModalMarmita()} >Cancelar</button>
               </ModalFooter>
 
 
@@ -223,7 +253,7 @@ function App() {
        
           <Modal isOpen={modalEndereco}>
 
-          <ModalHeader  className='text-black'>Entre com seu endereço</ModalHeader>
+          <ModalHeader  className='modal-header'>Entre com seu endereço</ModalHeader>
 
               <ModalBody>
                 <div className='form-group'>
@@ -248,8 +278,8 @@ function App() {
               </ModalBody>
 
               <ModalFooter>
-                <button className='btn btn-primary' onClick={() => EnderecoPost()}>Ok</button>
-                <button className='btn btn-danger' onClick={() => abrirFecharModalEndereco()} >Cancelar</button>
+                <button className='btn btn-warning' onClick={() => EnderecoPost()}>Ok</button>
+                <button className='btn btn-secondary' onClick={() => abrirFecharModalEndereco()} >Cancelar</button>
               </ModalFooter>
 
 

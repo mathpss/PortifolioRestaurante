@@ -1,6 +1,8 @@
 using backrestaurante.Context;
 using backrestaurante.Services;
 using Microsoft.EntityFrameworkCore;
+using backrestaurante.Services.Interfaces;
+using backrestaurante.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +36,8 @@ app.UseCors(options =>
         options.AllowAnyMethod();
     }
 );
+
+app.UseMiddleware<GlobalErrorHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 

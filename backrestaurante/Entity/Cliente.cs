@@ -21,5 +21,6 @@ namespace backrestaurante.Entity
 
         [JsonIgnore]
         public List<Marmita> Marmitas { get; set; }
+        public Perfil Perfil { get; set; }
     }
 }

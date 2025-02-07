@@ -10,7 +10,8 @@ namespace backrestaurante.Dtos
     {
         [Required]
         public string Nome { get; set; }
-        [Required]        
+        [Required]
         public string Telefone { get; set; }
+        public string Perfil { get; set; }
     }
 }

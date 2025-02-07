@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using backrestaurante.Context;
 using backrestaurante.Entity;
+using Microsoft.EntityFrameworkCore;
+using backrestaurante.Services.Interfaces;
 
 namespace backrestaurante.Services
 {
@@ -14,6 +16,12 @@ namespace backrestaurante.Services
         public ClienteService(RestauranteContext context)
         {
             _context = context;
+        }
+
+        public async Task<Cliente> ClienteLogin(Cliente cliente)
+        {
+            var clienteBanco = await _context.Clientes.Where(c => c.Nome.ToLower() == cliente.Nome.ToLower() && c.Telefone.ToLower() == cliente.Telefone.ToLower()).FirstOrDefaultAsync();
+            return clienteBanco;
         }
 
         public async Task CriarCliente(Cliente cliente)

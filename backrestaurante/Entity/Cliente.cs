@@ -13,8 +13,10 @@ namespace backrestaurante.Entity
         
         public int Id { get; set; }
         [Required]
+        [StringLength(70)]
         public string Nome { get; set; }
         [Required]        
+        [StringLength(70)]
         public string Telefone { get; set; }
         [JsonIgnore]        
         public Endereco Endereco { get; set; }

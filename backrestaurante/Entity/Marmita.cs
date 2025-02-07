@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -10,9 +11,9 @@ namespace backrestaurante.Entity
     public class Marmita
     {
         public int Id { get; set; }
-
+        [StringLength(70)]
         public string Misturas { get; set; }
-
+        [StringLength(70)]
         public string Guarnicoes { get; set; }
 
         public RetiradaEnum RetiradaEntrega { get; set; }

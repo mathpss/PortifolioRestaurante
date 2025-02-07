@@ -15,5 +15,7 @@ namespace backrestaurante.Services.Interfaces
         public Task<Cliente> ObterClientePorId(int id);
 
         public Task<Cliente> ClienteLogin(Cliente cliente);
+
+        public string GerarTokenJwt(Cliente cliente);
     }
 }

@@ -86,7 +86,15 @@ namespace backrestaurante.Controllers
             };
 
             var clientelogado = await _clienteService.ClienteLogin(clienteLogin);
-            if (clientelogado != null) return Ok(clientelogado);
+            var token = _clienteService.GerarTokenJwt(clientelogado);
+            
+            if (clientelogado != null) return Ok(new ClienteLogado
+                {
+                    Nome = clientelogado.Nome,
+                    Telefone = clientelogado.Telefone,
+                    Perfil = clientelogado.Perfil.ToString(),
+                    Token = token
+                });
 
             return Unauthorized();
             

@@ -1,19 +1,20 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace backrestaurante.Dtos
+namespace backrestaurante.Models
 {
-    public class ClienteDto
+    public class ClienteLogado
     {
-        [Required]
+
         public string Nome { get; set; }
-        [Required]
+
         public string Telefone { get; set; }
-        [JsonIgnore]
+
         public string Perfil { get; set; }
+
+        public string Token { get; set; }
+
     }
 }

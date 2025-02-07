@@ -3,6 +3,9 @@ using backrestaurante.Services;
 using Microsoft.EntityFrameworkCore;
 using backrestaurante.Services.Interfaces;
 using backrestaurante.Middlewares;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +17,25 @@ builder.Services.AddDbContext<RestauranteContext>(options =>
 builder.Services.AddScoped<IMarmitaService, MarmitaService>();
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IEnderecoService, EnderecoService>();
+
+builder.Services.AddAuthentication(options =>
+{    
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(option => {
+    option.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateLifetime = true,
+        RequireExpirationTime = true,
+        ValidateIssuerSigningKey = true,        
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("JwtOptions:SecurityKey").Value)),
+        ValidateIssuer = true,
+        ValidIssuer = builder.Configuration.GetSection("JwtOptions:Issuer").Value,
+        ValidateAudience = true,
+        ValidAudience = builder.Configuration.GetSection("JwtOptions:Audience").Value
+        
+    };
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

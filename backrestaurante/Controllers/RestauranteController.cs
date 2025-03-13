@@ -26,7 +26,7 @@ namespace backrestaurante.Controllers
             _enderecoService = enderecoService;
         }
 
-        [HttpGet("ObterMarmitaPorId/{id:int}")]
+        [HttpGet("Marmita/{id:int}")]
         public async Task<ActionResult<Marmita>> ObterMarmitaPorId(int id)
         {
             var marmita = await _marmitaService.ObterMarmitaPorId(id);
@@ -34,7 +34,7 @@ namespace backrestaurante.Controllers
             return Ok(marmita);
         }
 
-        [HttpPost("CriarMarmita")]
+        [HttpPost("Marmita")]
         public async Task<ActionResult> CriarMarmita( MarmitaDto marmita)
         {
             var novaMarmita = new Marmita()
@@ -50,7 +50,7 @@ namespace backrestaurante.Controllers
             return CreatedAtAction(nameof(ObterMarmitaPorId), new { id = novaMarmita.Id }, novaMarmita);
         }
         
-        [HttpGet("ObterClientePorId/{id:int}")]
+        [HttpGet("Cliente/{id:int}")]
 
         public async Task<ActionResult<Cliente>> ObterClientePorId(int id)
         {
@@ -60,7 +60,7 @@ namespace backrestaurante.Controllers
         }
 
 
-        [HttpPost("CriarCliente")]
+        [HttpPost("Cliente")]
 
         public async Task<ActionResult>CriarCliente(ClienteDto cliente)
         {
@@ -70,6 +70,11 @@ namespace backrestaurante.Controllers
                 Telefone = cliente.Telefone,
                 Perfil = (cliente.Perfil == null) ? Perfil.Cliente : (Perfil) Enum.Parse(typeof(Perfil), cliente.Perfil)
             };
+
+            var clienteExiste = await _clienteService.ClienteLogin(novoCliente);
+            if (clienteExiste != null) throw new Exception("Já possui cadastro");
+
+
             await _clienteService.CriarCliente(novoCliente);
             return CreatedAtAction(nameof(ObterClientePorId), new { id = novoCliente.Id }, novoCliente);
         }
@@ -102,7 +107,7 @@ namespace backrestaurante.Controllers
 
 
 
-        [HttpGet("ObterEnderecoPorId/{id:int}")]
+        [HttpGet("Endereco/{id:int}")]
         public async Task<ActionResult<Endereco>>ObterEnderecoPorId(int id)
         {
             var endereco = await _enderecoService.ObterEnderecoPorId(id);
@@ -110,7 +115,7 @@ namespace backrestaurante.Controllers
             return Ok(endereco);              
         }
 
-        [HttpPost("CriarEndereco")]
+        [HttpPost("Endereco")]
 
         public async Task<ActionResult>CriarEndereco(EnderecoDto endereco)
         {

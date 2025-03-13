@@ -6,6 +6,10 @@ using backrestaurante.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using FluentValidation.AspNetCore;
+using backrestaurante.Validators;
+using FluentValidation;
+using backrestaurante.Dtos;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +21,7 @@ builder.Services.AddDbContext<RestauranteContext>(options =>
 builder.Services.AddScoped<IMarmitaService, MarmitaService>();
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IEnderecoService, EnderecoService>();
+
 
 builder.Services.AddAuthentication(options =>
 {    
@@ -38,6 +43,10 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddControllers();
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssemblyContaining<ClienteDtoValidator>();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

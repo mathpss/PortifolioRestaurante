@@ -1,0 +1,119 @@
+import { createGlobalStyle } from "styled-components";
+
+export const GlobalStyle = createGlobalStyle`
+:root{
+  --main-bg-color:#252526;
+  --main-text-color: #fff;
+  --main-yellow-color: #F2A516;
+  --main-red-color: #f40612;
+  --secondary-grey-color: #303030;
+
+  --fs-16: 16px;
+  --fs-18: 18px;
+  --fs-20: 20px;
+  --fs-24: 24px;
+  --fs-26: 26px;
+  --fs-28: 28px;
+  --fs-32: 32px;
+  --fs-40: 40px;
+  --fs-48: 48px;
+  --fs-64: 64px;
+}
+
+body{
+  margin:0;
+  padding:0;  
+  background: var(--main-bg-color);
+  color: var(--main-text-color);
+  font-family: "Roboto", sans-serif; 
+
+}
+
+
+
+/*Valores padrão para dispositivos móveis*/
+
+h1{
+  color: var(--main-yellow-color);
+  font-size: var(--fs-28);
+  font-weight: 600; 
+}
+
+h2, h3{
+   font-size: var(--fs-18);
+   font-weight: 400;
+}
+
+h5 {
+   font-size: var(--fs-16);
+   font-weight: 400;
+}
+
+/* Custom Styles*/
+
+hr {
+  color: #fafafa60;
+  margin: 20px 0;
+}
+
+.main-content {
+  margin: 0 auto;
+  position: relative;
+  text-align: center;
+  padding: 48px 0;
+}
+
+.divfooter{
+  margin: 0 auto;
+  position: relative;
+  text-align: center;
+  padding: 8px 0;
+}
+
+.footer{
+  margin: 0 auto;
+  position: relative;
+  text-align: center;
+
+}
+
+a.pedido{
+  color: var(--main-yellow-color);
+  font-size: var(--fs-28);
+  font-weight: 600; 
+}
+
+.btnpedido{
+  background-color: var(--main-yellow-color);
+  color: var(--main-text-color);
+  margin-bottom: 30px;
+}
+.btn{
+  
+  color: var(--main-text-color);
+
+}
+
+.btn-warning{
+  background-color: var(--main-yellow-color);
+  color: var(--main-text-color);
+
+}
+
+.offcanvas {
+  background: var(--main-bg-color);
+  color: var(--main-text-color);
+  
+}
+
+.modal-header{
+  background: var(--main-bg-color);
+  color: var(--main-text-color);
+  
+}
+
+.btn-close{
+  background-color: var(--main-text-color);
+}
+
+`

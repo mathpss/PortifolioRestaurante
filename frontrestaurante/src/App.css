@@ -85,6 +85,12 @@ a.pedido{
   color: var(--main-text-color);
   margin-bottom: 30px;
 }
+.btn{
+  
+  color: var(--main-text-color);
+
+}
+
 .btn-warning{
   background-color: var(--main-yellow-color);
   color: var(--main-text-color);

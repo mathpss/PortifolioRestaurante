@@ -20,7 +20,7 @@ namespace backrestaurante.Entity
         public string Cidade { get; set; }
 
         public int ClienteId { get; set; }
-        [JsonIgnore]
-        public Cliente Cliente { get; set; }        
+        public Cliente Clientes { get; set; }
+        
     }
 }

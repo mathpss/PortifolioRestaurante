@@ -10,19 +10,18 @@ namespace backrestaurante.Entity
 {
     public class Cliente
     {
-        
+
         public int Id { get; set; }
         [Required]
         [StringLength(70)]
         public string Nome { get; set; }
-        [Required]        
+        [Required]
         [StringLength(70)]
         public string Telefone { get; set; }
-        [JsonIgnore]        
-        public Endereco Endereco { get; set; }
 
-        [JsonIgnore]
-        public List<Marmita> Marmitas { get; set; }
         public Perfil Perfil { get; set; }
+        public List<Endereco> Enderecos { get; set; }
+
+        public List<Marmita> Marmitas { get; set; }
     }
 }

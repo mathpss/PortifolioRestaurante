@@ -12,6 +12,7 @@ namespace backrestaurante.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    
     public class RestauranteController : ControllerBase
     {
         private readonly IClienteService _clienteService;
@@ -25,6 +26,24 @@ namespace backrestaurante.Controllers
             _clienteService = clienteService;
             _enderecoService = enderecoService;
         }
+
+        [HttpGet("PedidoRetirada/{idMarmita:int}/{idCliente:int}")]
+        public async Task<ActionResult<MarmitaRetiradaDto>> PedidoRetirada(int idMarmita, int idCliente)
+        {
+            var pedidoRetirada = await _marmitaService.MarmitaRetirada(idMarmita, idCliente);
+
+            return Ok(pedidoRetirada);
+        }
+
+        [HttpGet("PedidoEntrega/{idMarmita:int}/{idCliente:int}")]
+        public async Task<ActionResult<MarmitaRetiradaDto>> PedidoEntrega(int idMarmita, int idCliente)
+        {
+            var pedidoEntrega = await _marmitaService.MarmitaEntrega(idMarmita, idCliente);
+
+            return Ok(pedidoEntrega);
+        }
+
+
 
         [HttpGet("Marmita/{id:int}")]
         public async Task<ActionResult<Marmita>> ObterMarmitaPorId(int id)

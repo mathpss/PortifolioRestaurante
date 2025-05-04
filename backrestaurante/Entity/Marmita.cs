@@ -20,12 +20,11 @@ namespace backrestaurante.Entity
 
         public TamanhoEnum Tamanho { get; set; }
 
-        public DateTime Data { get; set; } 
+        public DateTime Data { get; set; }
 
         public int ClienteId { get; set; }
-        
-        [JsonIgnore]
-        public Cliente Cliente { get; set; }
+        public Cliente Clientes { get; set; }
+
 
     }
 }

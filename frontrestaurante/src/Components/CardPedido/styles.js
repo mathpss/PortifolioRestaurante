@@ -9,7 +9,7 @@ export const Card = styled.div`
     padding: 5px;
 
     height: 60px;
-    max-width: 80%;
+    
     
 `
 
@@ -41,4 +41,16 @@ export const ContainerButton = styled.div`
 export const ContainerCounter = styled.div`
     width: 35px;
     height: 35px;
+
+    input{
+        font-style: normal;
+        font-weight: 700;
+        font-size 32px;
+        color: #fff;
+        width: 35px;
+        height: 35px;
+        background-color:rgb(76, 78, 76);
+        text-align:center;
+        
+    }
 `

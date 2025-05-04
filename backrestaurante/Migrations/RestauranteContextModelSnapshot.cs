@@ -86,8 +86,7 @@ namespace ProjetoRestaurante.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClienteId")
-                        .IsUnique();
+                    b.HasIndex("ClienteId");
 
                     b.ToTable("Enderecos");
                 });
@@ -129,29 +128,29 @@ namespace ProjetoRestaurante.Migrations
 
             modelBuilder.Entity("backrestaurante.Entity.Endereco", b =>
                 {
-                    b.HasOne("backrestaurante.Entity.Cliente", "Cliente")
-                        .WithOne("Endereco")
-                        .HasForeignKey("backrestaurante.Entity.Endereco", "ClienteId")
+                    b.HasOne("backrestaurante.Entity.Cliente", "Clientes")
+                        .WithMany("Enderecos")
+                        .HasForeignKey("ClienteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Cliente");
+                    b.Navigation("Clientes");
                 });
 
             modelBuilder.Entity("backrestaurante.Entity.Marmita", b =>
                 {
-                    b.HasOne("backrestaurante.Entity.Cliente", "Cliente")
+                    b.HasOne("backrestaurante.Entity.Cliente", "Clientes")
                         .WithMany("Marmitas")
                         .HasForeignKey("ClienteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Cliente");
+                    b.Navigation("Clientes");
                 });
 
             modelBuilder.Entity("backrestaurante.Entity.Cliente", b =>
                 {
-                    b.Navigation("Endereco");
+                    b.Navigation("Enderecos");
 
                     b.Navigation("Marmitas");
                 });

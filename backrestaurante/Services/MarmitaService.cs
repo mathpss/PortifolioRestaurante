@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using backrestaurante.Services.Interfaces;
 using backrestaurante.Dtos;
 using backrestaurante.Models;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace backrestaurante.Services
 {
@@ -19,11 +20,11 @@ namespace backrestaurante.Services
             _context = context;
         }
 
-                public async Task<Marmita> ObterMarmitaPorId(int id)
+        public async Task<Marmita> ObterMarmitaPorId(int id)
         {
             var marmita = await _context.Marmitas.FindAsync(id);
 
-            return  marmita;
+            return marmita;
         }
 
         public async Task CriarMarmita(Marmita marmita)
@@ -32,32 +33,46 @@ namespace backrestaurante.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<MarmitaRetiradaDto>> MarmitaRetirada(int idMarmita, int idCliente)
+        public async Task<IEnumerable<Cliente>> ListaEntregaHoje()
         {
-            var clientes = await _context.Clientes.Where(c => c.Id == idCliente).ToListAsync();
-            var marmitas = await _context.Marmitas.Where(m => m.Id == idMarmita && m.RetiradaEntrega == RetiradaEnum.Retirada).ToListAsync();
-             
-            var query = from marmita in marmitas
-                        join cliente in clientes
-                        on marmita.ClienteId equals cliente.Id
-                        select new MarmitaRetiradaDto { Nome = cliente.Nome, Telefone = cliente.Telefone, Misturas = marmita.Misturas, Guarnicoes = marmita.Guarnicoes, Tamanho = marmita.Tamanho, Data = marmita.Data, };
+            var query =  _context.Clientes
+                .Include(m => m.Marmitas.Where(r => r.RetiradaEntrega == RetiradaEnum.Entrega
+                && r.Data.Date == DateTime.Today))
+                .Include(e => e.Enderecos)
+                .Where(m => m.Marmitas.Any());
 
-            return query;            
+            
+               
+            return await query.ToListAsync();
         }
 
-        public async Task<IEnumerable<MarmitaRetiradaDto>> MarmitaEntrega(int idMarmita, int idCliente)
+        public async Task<IEnumerable<Cliente>> ListaEntrega()
         {
-            var clientes = await _context.Clientes.Where(c => c.Id == idCliente).ToListAsync();
-            var marmitas = await _context.Marmitas.Where(m => m.Id == idMarmita && m.RetiradaEntrega == RetiradaEnum.Entrega).ToListAsync();
-             
-            var query = from marmita in marmitas
-                        join cliente in clientes
-                        on marmita.ClienteId equals cliente.Id
-                        select new MarmitaRetiradaDto { Nome = cliente.Nome, Telefone = cliente.Telefone, Misturas = marmita.Misturas, Guarnicoes = marmita.Guarnicoes, Tamanho = marmita.Tamanho, Data = marmita.Data, };
-
-            return query;            
+            var query = _context.Clientes
+                .Include(m => m.Marmitas.Where(r => r.RetiradaEntrega == RetiradaEnum.Entrega))
+                .Include(e => e.Enderecos)
+                .Where(m => m.Marmitas.Any());
+                
+            return await query.ToListAsync();
         }
 
+        public async Task<IEnumerable<Cliente>> ListaRetirada()
+        {
+            var query =  _context.Clientes
+                .Include(m => m.Marmitas.Where(r => r.RetiradaEntrega == RetiradaEnum.Retirada))
+                .Where(m => m.Marmitas.Any());
+                
 
+            return await query.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Cliente>> ListaRetiradaHoje()
+        {
+            var query = _context.Clientes
+                .Include(m => m.Marmitas.Where(r => r.RetiradaEntrega == RetiradaEnum.Retirada && r.Data.Date == DateTime.Today))                
+                .Where(m => m.Marmitas.Any());
+
+            return await query.ToListAsync();
+        }
     }
 }

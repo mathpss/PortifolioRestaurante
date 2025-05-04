@@ -12,8 +12,10 @@ namespace backrestaurante.Services.Interfaces
         public Task CriarMarmita(Marmita marmita);
 
         public Task<Marmita> ObterMarmitaPorId(int id);
-
-        public Task<IEnumerable<MarmitaRetiradaDto>> MarmitaRetirada(int idMarmita, int idCliente);                 
-        public Task<IEnumerable<MarmitaRetiradaDto>> MarmitaEntrega(int idMarmita, int idCliente);                 
+                                              
+        public Task<IEnumerable<Cliente>> ListaEntregaHoje();                 
+        public Task<IEnumerable<Cliente>> ListaRetirada();                 
+        public Task<IEnumerable<Cliente>> ListaRetiradaHoje();                 
+        public Task<IEnumerable<Cliente>> ListaEntrega();                 
     }
 }

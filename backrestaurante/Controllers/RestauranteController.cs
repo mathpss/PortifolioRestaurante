@@ -7,12 +7,13 @@ using backrestaurante.Entity;
 using Microsoft.AspNetCore.Mvc;
 using backrestaurante.Services.Interfaces;
 using backrestaurante.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backrestaurante.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    
+    //[Authorize]
     public class RestauranteController : ControllerBase
     {
         private readonly IClienteService _clienteService;
@@ -27,22 +28,35 @@ namespace backrestaurante.Controllers
             _enderecoService = enderecoService;
         }
 
-        [HttpGet("PedidoRetirada/{idMarmita:int}/{idCliente:int}")]
-        public async Task<ActionResult<MarmitaRetiradaDto>> PedidoRetirada(int idMarmita, int idCliente)
+#region Marmita 
+        [HttpGet("RetiradaHoje")]
+        public async Task<ActionResult<Cliente>> RetiradaHoje()
         {
-            var pedidoRetirada = await _marmitaService.MarmitaRetirada(idMarmita, idCliente);
-
-            return Ok(pedidoRetirada);
+            var retiradaHoje = await _marmitaService.ListaRetiradaHoje();
+            return Ok(retiradaHoje);
+        }
+        [HttpGet("PedidosRetirados")]
+        public async Task<ActionResult<Cliente>> ListaRetirada()
+        {
+            var retirada = await _marmitaService.ListaRetirada();
+            return Ok(retirada);
         }
 
-        [HttpGet("PedidoEntrega/{idMarmita:int}/{idCliente:int}")]
-        public async Task<ActionResult<MarmitaRetiradaDto>> PedidoEntrega(int idMarmita, int idCliente)
+       [HttpGet("EntregaHoje")]
+        public async Task<ActionResult<Cliente>> ListaEntregaHoje()
         {
-            var pedidoEntrega = await _marmitaService.MarmitaEntrega(idMarmita, idCliente);
+            var pedidoEntrega = await _marmitaService.ListaEntregaHoje();
 
             return Ok(pedidoEntrega);
         }
+        [HttpGet("PedidosEntregues")]
+        public async Task<ActionResult<Cliente>> PedidoEntrega()
+        {
+            var pedidoEntrega = await _marmitaService.ListaEntrega();
 
+            return Ok(pedidoEntrega);
+        }
+#endregion
 
 
         [HttpGet("Marmita/{id:int}")]
@@ -68,7 +82,7 @@ namespace backrestaurante.Controllers
             await _marmitaService.CriarMarmita(novaMarmita);
             return CreatedAtAction(nameof(ObterMarmitaPorId), new { id = novaMarmita.Id }, novaMarmita);
         }
-        
+#region Cliente        
         [HttpGet("Cliente/{id:int}")]
 
         public async Task<ActionResult<Cliente>> ObterClientePorId(int id)
@@ -78,7 +92,7 @@ namespace backrestaurante.Controllers
             return Ok(cliente);           
         }
 
-
+        [AllowAnonymous]
         [HttpPost("Cliente")]
 
         public async Task<ActionResult>CriarCliente(ClienteDto cliente)
@@ -123,9 +137,9 @@ namespace backrestaurante.Controllers
             return Unauthorized();
             
         }
+#endregion
 
-
-
+#region Endereco
         [HttpGet("Endereco/{id:int}")]
         public async Task<ActionResult<Endereco>>ObterEnderecoPorId(int id)
         {
@@ -150,6 +164,6 @@ namespace backrestaurante.Controllers
             await _enderecoService.CriarEndereco(novoEndereco);
             return CreatedAtAction(nameof(ObterEnderecoPorId), new { id = novoEndereco.Id }, novoEndereco);
         }
-        
+#endregion        
     }
 }

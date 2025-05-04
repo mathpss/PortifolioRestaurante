@@ -23,7 +23,7 @@ namespace backrestaurante.Entity
         public DateTime Data { get; set; }
 
         public int ClienteId { get; set; }
-        public Cliente Clientes { get; set; }
+
 
 
     }

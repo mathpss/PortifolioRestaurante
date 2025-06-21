@@ -22,6 +22,25 @@ namespace ProjetoRestaurante.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("backrestaurante.Entity.Cardapio", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Guarnicoes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Misturas")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cardapios");
+                });
+
             modelBuilder.Entity("backrestaurante.Entity.Cliente", b =>
                 {
                     b.Property<int>("Id")

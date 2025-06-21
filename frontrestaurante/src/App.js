@@ -9,33 +9,45 @@ import { Login } from './Pages/Login'
 import { Marmita } from './Pages/Marmita';
 import { Administrador } from './Pages/Administrador'; 
 import { CriarConta } from './Pages/CriarConta';
+import { Confirmacao } from './Pages/Confirmacao';
 import {
   BrowserRouter,
   Routes,
   Route
-  
  } from 'react-router-dom';
+import { AuthProvider } from './Context/AuthProvider';
+import { ProtectedLayout } from './Components/ProtectedLayout';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        
-        <Route path="/" exact element={<Home />} />
-        <Route path="/login"  element={<Login />} />
-        <Route path="/pedido"  element={<Marmita />} />
-        <Route path="/administrador"  element={<Administrador />} />
-        <Route path="/criarconta"  element={<CriarConta />} />
+    <AuthProvider>
 
+      <BrowserRouter>
+      <Routes>
+          <Route path="/criarconta" element={<CriarConta />} />
+          <Route path="/" exact element={<Home />} />
+          <Route path="/login" element={<Login />} />
+   
+          <Route element={<ProtectedLayout />} >
+            
+            <Route path="/pedido" element={<Marmita />} />
+            <Route path="/confirmacao" element={<Confirmacao />} />
+            <Route path="/administrador" element={<Administrador />} />
+
+          </Route>
+        
       </Routes>
     
-    </BrowserRouter>
+      </BrowserRouter>
+      
+    </AuthProvider>
+
   );
 }
 
 export default App;
 
-  
+// Esse trecho do código futuramente será retirado, está somente como consulta já que foi o primeiro modelo  
 //   const [cliente, setCliente] = useState({
 //     id:'',
 //     nome: '',
@@ -74,11 +86,11 @@ export default App;
 //     console.log(marmita)
 //   }
 
-//   const handleChangeEndereco = e => {
-//     const { name, value } = e.target;
-//     setEndereco({
-//       ...endereco, [name]: value
-//     });
+  // const handleChangeEndereco = e => {
+  //   const { name, value } = e.target;
+  //   setEndereco({
+  //     ...endereco, [name]: value
+  //   });
 //     console.log(endereco)
 //   }
 

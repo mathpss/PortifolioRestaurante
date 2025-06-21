@@ -10,6 +10,7 @@ export const ButtonContainer = styled.button`
     padding: 2px 12px;
     min-width:120px;
     width: 100%;
+    margin: 15px 0px;
 
 
 `

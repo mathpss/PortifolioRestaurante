@@ -10,6 +10,7 @@ using FluentValidation.AspNetCore;
 using backrestaurante.Validators;
 using FluentValidation;
 using backrestaurante.Dtos;
+using backrestaurante.Entity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,9 +19,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<RestauranteContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ConexaoPadrao")));
 
+builder.Services.AddMemoryCache();
+
 builder.Services.AddScoped<IMarmitaService, MarmitaService>();
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IEnderecoService, EnderecoService>();
+builder.Services.AddScoped<ICardapioService, CardapioService>();
 
 
 builder.Services.AddAuthentication(options =>

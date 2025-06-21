@@ -13,6 +13,7 @@ namespace backrestaurante.Context
         public RestauranteContext(DbContextOptions<RestauranteContext> options) : base(options) { }
 
 
+        public DbSet<Cardapio> Cardapios { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
 
         public DbSet<Marmita> Marmitas { get; set; }

@@ -7,6 +7,7 @@ import Button from "../../Components/Button";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {  TitleLogin, Container, Wrapper, CriarText } from "./styles"
+import { useAuth } from "../../Context/AuthProvider/useAuth";
 
 const schema = yup.object({
   nome: yup.string().required('Campo obrigatório'),
@@ -14,14 +15,33 @@ const schema = yup.object({
 }).required();
 
 function Login() {
-
+  const [nomeForm, setNomeForm] = useState()
+  const [telefoneForm, setTelefoneForm] = useState()
   const navigate = useNavigate();
+  const auth = useAuth()
+
+  const onFinish = async (e, nome, telefone) => {
+    e.preventDefault()
+    nome = nomeForm
+    telefone = telefoneForm
+    try {
+      await auth.authenticate(nome, telefone)
+
+        if (auth.perfil === "Adm") {
+          navigate('/administrador')      
+        } else {
+          navigate('/pedido')
+        }
+                
+    } catch (error) {
+       alert('Falha no Login' + error)
+    }
+  }
+
   const handleCriarConta = () => {
     navigate('/criarconta')
-      
   }
   
-
   const {
     control,
     handleSubmit,
@@ -30,44 +50,18 @@ function Login() {
     resolver: yupResolver(schema),
     mode: "onChange",
   });
- 
-  const [cliente, setCliente] = useState({
-    id: '',
-    nome: '',
-    telefone: ''
-  })
     
-  const handleChange = e => {
-    const { name, value } = e.target;
-    setCliente({
-      ...cliente, [name]: value
-    });
-    
-    console.log(cliente)
+  const handleChangeNome = e => {
+    const { value } = e.target;
+    setNomeForm( value)
   }
 
-
-  const clienteLoginPost = async (e) => {
-    e.preventDefault();
-    try {
-      delete cliente.id
-      if (cliente.nome == null || cliente.telefone == null) {
-        alert("Insira o nome e o telefone")
-      } else {
-        const response = await api.post(`Cliente/Login`, cliente)
-        if (response.data.perfil === "Adm") {
-          navigate('/administrador')
-            
-        } else {
-          navigate('/pedido')
-          
-          }
-      }
-    } 
-  catch (error) {
-    alert('Falha no Login' + error)
+  const handleChangeTelefone = e => {
+    const { value } = e.target;
+    setTelefoneForm( value)
   }
-}
+
+console.log(auth)
     return (
         <>
             <Container>   
@@ -75,9 +69,9 @@ function Login() {
                     
                     <TitleLogin>Faça seu Login</TitleLogin>
 
-            <form onSubmit={(clienteLoginPost)}>
-                <Input name="nome" onChange={handleChange} errorMessage={errors?.nome?.message}  control={control} placeholder="Nome:" />    
-                <Input name="telefone" onChange={handleChange} errorMessage={errors?.telefone?.message} control={control} placeholder="Telefone" />   
+            <form onSubmit={(onFinish)}>
+                <Input name="nome" onChange={handleChangeNome} errorMessage={errors?.nome?.message}  control={control} placeholder="Nome:" />    
+                <Input name="telefone" onChange={handleChangeTelefone}  errorMessage={errors?.telefone?.message} control={control} placeholder="Telefone" />   
                 
                 <Button title="Login"   type="submit"/>
                 <CriarText href="/criarconta"> Criar conta</CriarText>
@@ -86,10 +80,7 @@ function Login() {
             
                     </Wrapper>   
             </Container>
-        
-        
         </>
-
     )
 }
 export {Login}

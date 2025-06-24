@@ -11,10 +11,8 @@ function Marmita() {
     const dayweek = new Date().toLocaleString('pt-BR', { weekday: 'long' })
     const [cardapio, setCardapio] = useState([])
 
-    const [mistura, setMistura] = useState([])
     const [countMisturas, setCountMisturas] = useState([])
 
-    const [guarnicoes, setGuarnicoes] = useState([])
     const [countGuarnicoes, setCountGuarnicoes] = useState([])
 
     useEffect(() => {
@@ -39,10 +37,10 @@ function Marmita() {
 
 
     const handlerCounterPlusMistura = (index) => {
-        const limite = 2
+        
         const copiaArray = [...countMisturas]
         const total = copiaArray.reduce((acumulador, valor) => acumulador + valor, 0)
-        if (total < limite) {
+        if (total < 2) {
             copiaArray[index] += 1
             setCountMisturas(copiaArray)
         }
@@ -57,10 +55,10 @@ function Marmita() {
     }
 
     const handlerCounterPlusGuarnicao = (index) => {
-        const limite = 3
+    
         const copiaArray = [...countGuarnicoes]
         const total = copiaArray.reduce((acumulador, valor) => acumulador + valor, 0)
-        if (total < limite) {
+        if (total < 3) {
             copiaArray[index] += 1
             setCountGuarnicoes(copiaArray)
         }
@@ -76,8 +74,8 @@ function Marmita() {
 
     const handlerPedido = () =>
     {
-        const copiaMistura = [...mistura]
-        const copiaGuarnicao = [...guarnicoes]
+        const copiaMistura = []
+        const copiaGuarnicao = []
         cardapio[0].misturas.forEach((item, index) => {
             for (let i = 0; i < countMisturas[index]; i++)
             {
@@ -91,13 +89,9 @@ function Marmita() {
             }
         })
 
-        setMistura(copiaMistura)
-        setGuarnicoes(copiaGuarnicao)
-
-        navigate('/confirmacao')
+        navigate('/confirmacao', {state: {mistura: copiaMistura, guarnicao: copiaGuarnicao} })
     }
-    console.log(mistura)
-    console.log(guarnicoes)
+
     return (<>
 
         <Container>
